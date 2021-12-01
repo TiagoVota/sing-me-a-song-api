@@ -29,7 +29,25 @@ const sendRecommendation = async (req, res) => {
 	}
 }
 
+const sendUpVote = async (req, res) => {
+	const { id } = req.params
+
+	// TODO: Fazer validação do id
+
+	try {
+		const recommendation = await recommendationsService
+			.castUpVote({ id })
+
+		return res.status(200).send(recommendation)
+
+	} catch (error) {
+		console.log(error)
+		return res.sendStatus(500)
+	}
+}
+
 
 export {
 	sendRecommendation,
+	sendUpVote,
 }

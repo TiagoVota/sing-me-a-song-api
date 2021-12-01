@@ -10,12 +10,36 @@ const createRecommendation = async ({ name, youtubeLink }) => {
 		RETURNING *;
 	`
 	const queryArgs = [name, youtubeLink, 0]
-	const recommendations = await connection.query(query, queryArgs)
+	const recommendation = await connection.query(query, queryArgs)
 
-	return recommendations.rows[0]
+	return recommendation.rows[0]
+}
+
+const findRecommendationById = async ({ id }) => {
+	const query = `
+		SELECT * FROM recommendations
+			WHERE id = $1;
+	`
+	const recommendation = await connection.query(query, [id])
+
+	return recommendation.rows[0]
+}
+
+const changeScore = async ({ id, newScore }) => {
+	const query = `
+		UPDATE recommendations
+		SET score = $1
+			WHERE id = $2
+		RETURNING *;
+	`
+	const recommendation = await connection.query(query, [newScore, id])
+
+	return recommendation.rows[0]
 }
 
 
 export {
 	createRecommendation,
+	findRecommendationById,
+	changeScore,
 }
