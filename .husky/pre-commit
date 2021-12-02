@@ -3,4 +3,4 @@
 
 npx eslint src
 npx eslint tests
-# npm run test
+npm run test

@@ -12,7 +12,7 @@ app.use(express.json())
 app.get('/status', (_, res) => res.sendStatus(200))
 
 app.post('/recommendations', recommendationsController.sendRecommendation)
-app.post('/recommendations/:id/upvote', (_, res) => res.sendStatus(200))
+app.post('/recommendations/:id/upvote', recommendationsController.sendUpVote)
 app.post('/recommendations/:id/downvote', (_, res) => res.sendStatus(200))
 
 app.get('/recommendations/random', (_, res) => res.sendStatus(200))
