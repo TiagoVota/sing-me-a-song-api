@@ -11,6 +11,7 @@
     "start:prod": "NODE_ENV=production node ./src/server.js",
     "test": "NODE_ENV=test npx jest --run-in-band",
     "test:watch": "NODE_ENV=test npx jest --run-in-band --watch",
+		"test:coverage": "npx jest --coverage",
     "deploy": "git push heroku main",
     "logs": "heroku logs --tail"
   },

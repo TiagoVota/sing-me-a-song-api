@@ -37,9 +37,18 @@ const changeScore = async ({ id, newScore }) => {
 	return recommendation.rows[0]
 }
 
+const deleteRecommendationById = async ({ id }) => {
+	const query = `
+		DELETE FROM recommendations
+			WHERE id = $1;
+	`
+	await connection.query(query, [id])
+}
+
 
 export {
 	createRecommendation,
 	findRecommendationById,
 	changeScore,
+	deleteRecommendationById,
 }
