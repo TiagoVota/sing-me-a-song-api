@@ -4,6 +4,10 @@ import * as recommendationsValidation from '../validations/recommendationsValida
 import theValidationProceeded from '../validations/handleValidation.js'
 
 
+const errorMsg = {
+	406: 'Id não encontrado!'
+}
+
 const sendRecommendation = async (req, res) => {
 	const { body: recommendationInfo } = req
 
@@ -37,6 +41,8 @@ const sendUpVote = async (req, res) => {
 	try {
 		const recommendation = await recommendationsService
 			.castUpVote({ id })
+		
+		if (recommendation === null) return res.status(406).send(errorMsg[406])
 
 		return res.status(200).send(recommendation)
 

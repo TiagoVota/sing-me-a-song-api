@@ -4,6 +4,8 @@ import * as recommendationsRepository from '../repositories/recommendationsRepos
 const castUpVote = async ({ id }) => {
 	const recommendation = await recommendationsRepository
 		.findRecommendationById({ id })
+		
+	if (!recommendation) return null
 
 	const body = {
 		id,
