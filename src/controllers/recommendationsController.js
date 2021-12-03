@@ -5,6 +5,7 @@ import theValidationProceeded from '../validations/handleValidation.js'
 
 
 const errorMsg = {
+	404: 'Sem recomendações :(',
 	406: 'Id não encontrado!'
 }
 
@@ -71,9 +72,25 @@ const sendDownVote = async (req, res) => {
 	}
 }
 
+const getRandomRecommendation = async (req, res) => {
+	try {
+		const recommendation = await recommendationsService
+			.choiceRandomRecommendation()
+		
+		if (recommendation === null) return res.status(404).send(errorMsg[404])
+
+		return res.status(200).send(recommendation)
+
+	} catch (error) {
+		console.log(error)
+		return res.sendStatus(500)
+	}
+}
+
 
 export {
 	sendRecommendation,
 	sendUpVote,
 	sendDownVote,
+	getRandomRecommendation,
 }

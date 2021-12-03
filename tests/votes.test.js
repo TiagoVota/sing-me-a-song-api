@@ -33,7 +33,7 @@ describe('Test castUpVote', () => {
 		jest.spyOn(recommendationsRepository, 'findRecommendationById')
 			.mockImplementationOnce(() => recommendation)
 		jest.spyOn(recommendationsRepository, 'changeScore')
-			.mockImplementationOnce(() =>  upVoted)
+			.mockImplementationOnce(() => upVoted)
 
 		const result = await sut.castUpVote({id})
 
@@ -42,7 +42,7 @@ describe('Test castUpVote', () => {
 })
 
 describe('Test castDownVote', () => {
-	const limit = -4
+	const limit = -5
 
 	test('Should return null for inexistent recommendation', async () => {
 		const id = 10
@@ -72,14 +72,14 @@ describe('Test castDownVote', () => {
 		jest.spyOn(recommendationsRepository, 'findRecommendationById')
 			.mockImplementationOnce(() => recommendation)
 		jest.spyOn(recommendationsRepository, 'changeScore')
-			.mockImplementationOnce(() =>  downVoted)
+			.mockImplementationOnce(() => downVoted)
 
 		const result = await sut.castDownVote({id})
 
 		expect(result).toEqual(downVoted)
 	})
 
-	test('Should delete recommendation for limit score -5', async () => {
+	test('Should delete recommendation for limit score -6', async () => {
 		const id = 10
 		const recommendation = {
 			id,
@@ -98,7 +98,7 @@ describe('Test castDownVote', () => {
 		expect(result).toEqual('deleted')
 	})
 
-	test('Should delete recommendation for limit score below -5', async () => {
+	test('Should delete recommendation for limit score below -6', async () => {
 		const id = 10
 		const recommendation = {
 			id,

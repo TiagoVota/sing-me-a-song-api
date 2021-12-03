@@ -10,19 +10,20 @@ const createRecommendation = async ({ name, youtubeLink }) => {
 		RETURNING *;
 	`
 	const queryArgs = [name, youtubeLink, 0]
-	const recommendation = await connection.query(query, queryArgs)
+	const recommendationPromise = await connection.query(query, queryArgs)
 
-	return recommendation.rows[0]
+	return recommendationPromise.rows[0]
 }
 
 const findRecommendationById = async ({ id }) => {
+	// TODO: daria para refatorar isso para todos os find serem vertentes do SELECT
 	const query = `
 		SELECT * FROM recommendations
 			WHERE id = $1;
 	`
-	const recommendation = await connection.query(query, [id])
+	const recommendationPromise = await connection.query(query, [id])
 
-	return recommendation.rows[0]
+	return recommendationPromise.rows[0]
 }
 
 const changeScore = async ({ id, newScore }) => {
@@ -32,9 +33,9 @@ const changeScore = async ({ id, newScore }) => {
 			WHERE id = $2
 		RETURNING *;
 	`
-	const recommendation = await connection.query(query, [newScore, id])
+	const recommendationPromise = await connection.query(query, [newScore, id])
 
-	return recommendation.rows[0]
+	return recommendationPromise.rows[0]
 }
 
 const deleteRecommendationById = async ({ id }) => {
@@ -45,10 +46,18 @@ const deleteRecommendationById = async ({ id }) => {
 	await connection.query(query, [id])
 }
 
+const selectAllRecommendations = async () => {
+	const query = 'SELECT * FROM recommendations;'
+	const recommendationPromise = await connection.query(query)
+
+	return recommendationPromise.rows
+}
+
 
 export {
 	createRecommendation,
 	findRecommendationById,
 	changeScore,
 	deleteRecommendationById,
+	selectAllRecommendations,
 }
