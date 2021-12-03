@@ -1,4 +1,5 @@
 import * as recommendationsRepository from '../repositories/recommendationsRepository.js'
+import * as recommendationsUtil from '../utils/recommendationsUtil.js'
 
 
 const castUpVote = async ({ id }) => {
@@ -23,7 +24,7 @@ const castDownVote = async ({ id }) => {
 	if (!recommendation) return null
 	const { score } = recommendation
 
-	if (score <= -4) {
+	if (score <= -5) {
 		await recommendationsRepository.deleteRecommendationById({ id })
 		return 'deleted'
 	}
@@ -37,8 +38,20 @@ const castDownVote = async ({ id }) => {
 	return downVoted
 }
 
+const choiceRandomRecommendation = async () => {
+	const list = await recommendationsRepository.selectAllRecommendations()
+	
+	if (list.length === 0) return null
+	
+	const type = recommendationsUtil.choiceBestOrWorst()
+	
+	const recommendation = recommendationsUtil.choiceRecommendation(list, type)
+	
+	return recommendation
+}
 
 export {
 	castUpVote,
 	castDownVote,
+	choiceRandomRecommendation,
 }
