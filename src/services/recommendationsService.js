@@ -50,6 +50,7 @@ const choiceRandomRecommendation = async () => {
 	return recommendation
 }
 
+
 export {
 	castUpVote,
 	castDownVote,
