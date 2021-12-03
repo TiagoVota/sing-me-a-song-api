@@ -74,12 +74,31 @@ const sendDownVote = async (req, res) => {
 
 const getRandomRecommendation = async (req, res) => {
 	try {
-		const recommendation = await recommendationsService
+		const recommendations = await recommendationsService
 			.choiceRandomRecommendation()
 		
-		if (recommendation === null) return res.status(404).send(errorMsg[404])
+		if (recommendations === null) return res.status(404).send(errorMsg[404])
 
-		return res.status(200).send(recommendation)
+		return res.status(200).send(recommendations)
+
+	} catch (error) {
+		console.log(error)
+		return res.sendStatus(500)
+	}
+}
+
+const getTopRecommendations = async (req, res) => {
+	const { amount } = req.params
+
+	// TODO: Fazer validação do amount
+
+	try {
+		const recommendations = await recommendationsRepository
+			.selectTopRecommendations({ amount })
+		
+		if (recommendations === null) return res.status(404).send(errorMsg[404])
+
+		return res.status(200).send(recommendations)
 
 	} catch (error) {
 		console.log(error)
@@ -93,4 +112,5 @@ export {
 	sendUpVote,
 	sendDownVote,
 	getRandomRecommendation,
+	getTopRecommendations,
 }

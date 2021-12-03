@@ -16,7 +16,7 @@ app.post('/recommendations/:id/upvote', recommendationsController.sendUpVote)
 app.post('/recommendations/:id/downvote', recommendationsController.sendDownVote)
 
 app.get('/recommendations/random', recommendationsController.getRandomRecommendation)
-app.get('/recommendations/top/:amount', (_, res) => res.sendStatus(200))
+app.get('/recommendations/top/:amount', recommendationsController.getTopRecommendations)
 
 
 export default app

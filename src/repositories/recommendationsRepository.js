@@ -53,6 +53,17 @@ const selectAllRecommendations = async () => {
 	return recommendationPromise.rows
 }
 
+const selectTopRecommendations = async ({ amount }) => {
+	const query = `
+		SELECT * FROM recommendations
+			ORDER BY score DESC
+		LIMIT $1;
+	`
+	const recommendationPromise = await connection.query(query, [amount])
+
+	return recommendationPromise.rows
+}
+
 
 export {
 	createRecommendation,
@@ -60,4 +71,5 @@ export {
 	changeScore,
 	deleteRecommendationById,
 	selectAllRecommendations,
+	selectTopRecommendations,
 }
