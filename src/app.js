@@ -1,8 +1,8 @@
 import cors from 'cors'
 import express from 'express'
 
-import * as statusRouter from './routers/statusRouter.js'
-import * as recommendationsRouter from './routers/recommendationsRouter.js'
+import statusRouter from './routers/statusRouter.js'
+import recommendationsRouter from './routers/recommendationsRouter.js'
 
 
 const app = express()
