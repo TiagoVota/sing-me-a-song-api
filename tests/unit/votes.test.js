@@ -1,5 +1,5 @@
-import * as recommendationsService from '../src/services/recommendationsService.js'
-import * as recommendationsRepository from '../src/repositories/recommendationsRepository.js'
+import * as recommendationsService from '../../src/services/recommendationsService.js'
+import * as recommendationsRepository from '../../src/repositories/recommendationsRepository.js'
 
 const sut = recommendationsService
 

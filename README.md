@@ -1,12 +1,12 @@
 # 🔗 Sing me a Song API
 ## 🚀 Descrição do Projeto
-Quem nunca se deparou com o problema de "não tenho nenhuma música boa para ouvir agora", não é mesmo? Com a API Sing me a Song você nunca mais passará por esse problema, com recomendações de músicas exeletes!
+Quem nunca se deparou com o problema de "não tenho nenhuma música boa para ouvir agora", não é mesmo? Com a API Sing me a Song você nunca mais passará por esse problema, com recomendações de músicas excelentes!
 
 <br/>
 
 
 ## 🔍 Sobre
-Essa API se trata de uma forma anônima de recomendação de músicas, na qual poderá ser tanto inserções de recomendações de músicas quanto buscas por exelentes recomendações. Na mesma, podemos encontrar as seguintes funcionalidades:
+Essa API se trata de uma forma anônima de recomendação de músicas, na qual poderá ser tanto inserções de recomendações de músicas quanto buscas por empolgantes recomendações. Na mesma, podemos encontrar as seguintes funcionalidades:
 
 ### Features
 - [x] [Postar uma recomendação](#POST-recommendations)
@@ -90,7 +90,7 @@ sudo su postgres
 psql
 
 # Crie uma database com o nome que desejar
-CREATE DATABASE singmeasong
+CREATE DATABASE sing_me_a_song;
 
 # Conecte a sua database
 \c sing_me_a_song
@@ -98,7 +98,7 @@ CREATE DATABASE singmeasong
 # Cole e dê enter no script para criar as tabelas do seu banco de dados
 
 ```
-O script necessário para criar as tabelas pode ser encotrado [nesse arquivo](https://github.com/TiagoVota/sing-me-a-song-api/blob/main/create_database.sql).
+O script necessário para criar as tabelas pode ser encontrado [nesse arquivo](https://github.com/TiagoVota/sing-me-a-song-api/blob/main/create_database.sql).
 
 
 ### Preparando setup
