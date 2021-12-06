@@ -46,7 +46,6 @@ Essa API se trata de uma forma anônima de recomendação de músicas, na qual p
 
 ## 🖥 Tecnologias
 <p align="center">
-  <img alt="javascript" src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"/>
   <img alt="postgres" src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/>
   <img alt="nodejs" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
   <img alt="npm" src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"/>
@@ -98,7 +97,7 @@ CREATE DATABASE sing_me_a_song;
 # Cole e dê enter no script para criar as tabelas do seu banco de dados
 
 ```
-O script necessário para criar as tabelas pode ser encontrado [nesse arquivo](https://github.com/TiagoVota/sing-me-a-song-api/blob/main/create_database.sql).
+O script necessário para criar as tabelas pode ser encontrado [nesse arquivo dump](https://github.com/TiagoVota/sing-me-a-song-api/blob/main/dump.sql).
 
 
 ### Preparando setup
