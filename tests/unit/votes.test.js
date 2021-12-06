@@ -1,20 +1,21 @@
 import * as recommendationsService from '../../src/services/recommendationsService.js'
 import * as recommendationsRepository from '../../src/repositories/recommendationsRepository.js'
 
+import NoFoundIdError from '../../src/errors/NoFoundIdError.js'
+
 const sut = recommendationsService
 
 
 describe('Test castUpVote', () => {
-	test('Should return null for inexistent recommendation', async () => {
+	test('Should throw noFoundIdError for inexistent recommendation', async () => {
 		const id = 10
 		const recommendation = undefined
 
 		jest.spyOn(recommendationsRepository, 'findRecommendationById')
 			.mockImplementationOnce(() => recommendation)
 
-		const result = await sut.castUpVote({id})
-
-		expect(result).toBeNull()
+		const errorPromise = sut.castUpVote({id})
+		await expect(errorPromise).rejects.toThrowError(NoFoundIdError)
 	})
 
 	test('Should incresse the score for existent recommendation', async () => {
@@ -51,9 +52,8 @@ describe('Test castDownVote', () => {
 		jest.spyOn(recommendationsRepository, 'findRecommendationById')
 			.mockImplementationOnce(() => recommendation)
 
-		const result = await sut.castDownVote({id})
-
-		expect(result).toBeNull()
+		const errorPromise = sut.castDownVote({id})
+		await expect(errorPromise).rejects.toThrowError(NoFoundIdError)
 	})
 
 	test('Should decrees the score for existent recommendation', async () => {

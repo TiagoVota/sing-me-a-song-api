@@ -1,11 +1,14 @@
 import * as recommendationsRepository from '../repositories/recommendationsRepository.js'
 
+import NoFoundIdError from '../errors/NoFoundIdError.js'
+import NoRecommendationsError from '../errors/NoRecommendationsError.js'
+
 
 const castUpVote = async ({ id }) => {
 	const recommendation = await recommendationsRepository
 		.findRecommendationById({ id })
 		
-	if (!recommendation) return null
+	if (!recommendation) throw new NoFoundIdError(id)
 
 	const body = {
 		id,
@@ -20,7 +23,8 @@ const castDownVote = async ({ id }) => {
 	const recommendation = await recommendationsRepository
 		.findRecommendationById({ id })
 		
-	if (!recommendation) return null
+	if (!recommendation) throw new NoFoundIdError(id)
+
 	const { score } = recommendation
 
 	if (score <= -5) {
@@ -40,7 +44,7 @@ const castDownVote = async ({ id }) => {
 const choiceRandomRecommendation = async () => {
 	const list = await recommendationsRepository.selectAllRecommendations()
 	
-	if (list.length === 0) return null
+	if (list.length === 0) throw new NoRecommendationsError()
 	
 	const type = choiceBestOrWorst()
 	

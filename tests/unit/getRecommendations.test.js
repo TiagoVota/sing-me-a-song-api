@@ -1,6 +1,8 @@
 import * as recommendationsService from '../../src/services/recommendationsService.js'
 import * as recommendationsRepository from '../../src/repositories/recommendationsRepository.js'
 
+import NoRecommendationsError from '../../src/errors/NoRecommendationsError.js'
+
 const sut = recommendationsService
 
 
@@ -23,9 +25,8 @@ describe('Test choiceRandomRecommendation', () => {
 		jest.spyOn(recommendationsRepository, 'selectAllRecommendations')
 			.mockImplementationOnce(() => recommendationList)
 	
-		const result = await sut.choiceRandomRecommendation()
-	
-		expect(result).toBeNull()
+		const errorPromise = sut.choiceRandomRecommendation()
+		await expect(errorPromise).rejects.toThrowError(NoRecommendationsError)
 	})
 
 	test('Should return best for best and worst recommendations', async () => {
