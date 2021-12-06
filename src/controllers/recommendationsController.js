@@ -1,108 +1,93 @@
 import * as recommendationsService from '../services/recommendationsService.js'
-import * as recommendationsRepository from '../repositories/recommendationsRepository.js'
-import * as recommendationsValidation from '../validations/recommendationsValidation.js'
-import theValidationProceeded from '../validations/handleValidation.js'
 
 
-const errorMsg = {
-	404: 'Sem recomendações :(',
-	406: 'Id não encontrado!'
-}
-
-const sendRecommendation = async (req, res) => {
+const sendRecommendation = async (req, res, next) => {
 	const { body: recommendationInfo } = req
-
-	// TODO: Criar middleware(?) para isso aqui
-	const isValidSignUp = theValidationProceeded({
-		res,
-		status: 422,
-		objectToValid: recommendationInfo,
-		objectValidation: recommendationsValidation.validatePostRecommendation
-	})
-
-	if (!isValidSignUp) return
 	
 	try {
-		const recommendation = await recommendationsRepository
+		const recommendation = await recommendationsService
 			.createRecommendation(recommendationInfo)
 
 		return res.status(201).send(recommendation)
 
 	} catch (error) {
-		console.log(error)
-		return res.sendStatus(500)
+		const { name: errorName, message, status } = error
+		
+		if (errorName === 'InputsError') return res.status(status).send(message)
+
+		next(error)
 	}
 }
 
-const sendUpVote = async (req, res) => {
+const sendUpVote = async (req, res, next) => {
 	const { id } = req.params
 
-	// TODO: Fazer validação do id
-
 	try {
-		const recommendation = await recommendationsService
-			.castUpVote({ id })
+		const recommendation = await recommendationsService.castUpVote({ id })
 		
-		if (recommendation === null) return res.status(406).send(errorMsg[406])
-
 		return res.status(200).send(recommendation)
 
 	} catch (error) {
-		console.log(error)
-		return res.sendStatus(500)
+		const { name: errorName, message, status } = error
+
+		if (errorName === 'InputsError') return res.status(status).send(message)
+		if (errorName === 'NoFoundIdError') return res.status(status).send(message)
+
+		next(error)
 	}
 }
 
-const sendDownVote = async (req, res) => {
+const sendDownVote = async (req, res, next) => {
 	const { id } = req.params
-
-	// TODO: Fazer validação do id
 
 	try {
 		const recommendation = await recommendationsService
 			.castDownVote({ id })
 		
-		if (recommendation === null) return res.status(406).send(errorMsg[406])
-
 		return res.status(200).send(recommendation)
 
 	} catch (error) {
-		console.log(error)
-		return res.sendStatus(500)
+		const { name: errorName, message, status } = error
+
+		if (errorName === 'InputsError') return res.status(status).send(message)
+		if (errorName === 'NoFoundIdError') return res.status(status).send(message)
+
+		next(error)
 	}
 }
 
-const getRandomRecommendation = async (req, res) => {
+const getRandomRecommendation = async (req, res, next) => {
 	try {
 		const recommendations = await recommendationsService
 			.choiceRandomRecommendation()
 		
-		if (recommendations === null) return res.status(404).send(errorMsg[404])
-
 		return res.status(200).send(recommendations)
 
 	} catch (error) {
-		console.log(error)
-		return res.sendStatus(500)
+		const { name: errorName, message, status } = error
+
+		if (errorName === 'NoRecommendationsError') return res.status(status).send(message)
+
+		next(error)
 	}
 }
 
-const getTopRecommendations = async (req, res) => {
+const getTopRecommendations = async (req, res, next) => {
 	const { amount } = req.params
 
-	// TODO: Fazer validação do amount
-
 	try {
-		const recommendations = await recommendationsRepository
-			.selectTopRecommendations({ amount })
+		const recommendations = await recommendationsService
+			.listTopRecommendations({ amount })
 		
-		if (recommendations === null) return res.status(404).send(errorMsg[404])
-
 		return res.status(200).send(recommendations)
 
 	} catch (error) {
-		console.log(error)
-		return res.sendStatus(500)
+		const { name: errorName, message, status } = error
+
+		if (errorName === 'InputsError') return res.status(status).send(message)
+		if (errorName === 'NoRecommendationsError') return res.status(status).send(message)
+
+		next(error)
 	}
 }
 

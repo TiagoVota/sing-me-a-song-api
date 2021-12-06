@@ -1,11 +1,42 @@
 import * as recommendationsRepository from '../repositories/recommendationsRepository.js'
+import * as recommendationsValidation from '../validations/recommendationsValidation.js'
 
+import { validationErrors } from '../validations/handleValidation.js'
+
+import InputsError from '../errors/InputsError.js'
+import NoFoundIdError from '../errors/NoFoundIdError.js'
+import NoRecommendationsError from '../errors/NoRecommendationsError.js'
+
+
+const createRecommendation = async (recommendationInfo) => {
+	// TODO: fazer unit test para essa função
+	const inputsErrors = validationErrors({
+		objectToValid: recommendationInfo,
+		objectValidation: recommendationsValidation.validatePostRecommendation
+	})
+	// TODO: Olá Galdino! Eu fiquei pensando se não poderia colocar esse throw de
+	// error na função validationErrors (arquivo handleValidation). Achas que se-
+	// ria uma ideia ruim? Essa responsabilidade de falar quando é enviado um erro
+	// é do service mesmo ou ela pode ser jogada para outro lugar, tipo a parte de
+	// validation?
+	if (inputsErrors) throw new InputsError(inputsErrors)
+
+	const recommendation = await recommendationsRepository
+		.insertRecommendation({...recommendationInfo, score: 0})
+	
+	return recommendation
+}
 
 const castUpVote = async ({ id }) => {
+	const inputsErrors = validationErrors({
+		objectToValid: { id },
+		objectValidation: recommendationsValidation.validateVoteId
+	})
+	if (inputsErrors) throw new InputsError(inputsErrors)
+
 	const recommendation = await recommendationsRepository
 		.findRecommendationById({ id })
-		
-	if (!recommendation) return null
+	if (!recommendation) throw new NoFoundIdError(id)
 
 	const body = {
 		id,
@@ -17,10 +48,16 @@ const castUpVote = async ({ id }) => {
 }
 
 const castDownVote = async ({ id }) => {
+	const inputsErrors = validationErrors({
+		objectToValid: { id },
+		objectValidation: recommendationsValidation.validateVoteId
+	})
+	if (inputsErrors) throw new InputsError(inputsErrors)
+
 	const recommendation = await recommendationsRepository
 		.findRecommendationById({ id })
-		
-	if (!recommendation) return null
+	if (!recommendation) throw new NoFoundIdError(id)
+
 	const { score } = recommendation
 
 	if (score <= -5) {
@@ -40,7 +77,7 @@ const castDownVote = async ({ id }) => {
 const choiceRandomRecommendation = async () => {
 	const list = await recommendationsRepository.selectAllRecommendations()
 	
-	if (list.length === 0) return null
+	if (list.length === 0) throw new NoRecommendationsError()
 	
 	const type = choiceBestOrWorst()
 	
@@ -49,6 +86,9 @@ const choiceRandomRecommendation = async () => {
 	return recommendation
 }
 
+// Olá Galdino! Essas próximas quatro funções servem de apoio para realizar a
+// função acima (choiceRandomRecommendation); eu deixo essas quatro nesse servi-
+// ce mesmo, coloco talvez em uma pasta utils ou o que eu faço?
 const choiceRecommendation = (list, type) => {
 	const [best, worst] = separateRecommendations(list)
 	const selectedList = {
@@ -75,9 +115,25 @@ const separateRecommendations = (list) => {
 const choiceBestOrWorst = () => (Math.random() < 0.7) ? 'best' : 'worst'
 const randomElement = list => list[Math.floor(Math.random() * list.length)]
 
+const listTopRecommendations = async ({ amount }) => {
+	const inputsErrors = validationErrors({
+		objectToValid: { amount },
+		objectValidation: recommendationsValidation.validateAmount
+	})
+	if (inputsErrors) throw new InputsError(inputsErrors)
+
+	const topRecommendations = await recommendationsRepository
+		.selectTopRecommendations({ amount })
+	if (topRecommendations.length === 0) throw new NoRecommendationsError()
+	
+	return topRecommendations
+}
+
 
 export {
+	createRecommendation,
 	castUpVote,
 	castDownVote,
 	choiceRandomRecommendation,
+	listTopRecommendations,
 }
