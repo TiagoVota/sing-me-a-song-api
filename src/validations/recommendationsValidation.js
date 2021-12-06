@@ -1,7 +1,6 @@
 import joi from 'joi'
 
 
-// TODO: entender certinho como funciona esse regex
 const youtubeUrlRegex = new RegExp(/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/)
 
 const validatePostRecommendation = joi.object({
@@ -9,8 +8,17 @@ const validatePostRecommendation = joi.object({
 	youtubeLink: joi.string().pattern(youtubeUrlRegex).required(),
 }).length(2)
 
+const validateVoteId = joi.object({
+	id: joi.number().integer().min(1),
+}).length(1)
+
+const validateAmount = joi.object({
+	amount: joi.number().integer().min(1),
+}).length(1)
 
 
 export {
 	validatePostRecommendation,
+	validateVoteId,
+	validateAmount,
 }

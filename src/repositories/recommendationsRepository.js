@@ -1,22 +1,23 @@
 import connection from '../database/database.js'
 
 
-const createRecommendation = async ({ name, youtubeLink }) => {
+const insertRecommendation = async ({ name, youtubeLink, score }) => {
 	const query = `
 		INSERT INTO recommendations
 			(name, youtube_link, score)
 		VALUES
 			($1, $2, $3)
-		RETURNING *;
+		RETURNING
+			id, name, youtube_link AS youtubeLink, score;
 	`
-	const queryArgs = [name, youtubeLink, 0]
+	const queryArgs = [name, youtubeLink, score]
 	const recommendationPromise = await connection.query(query, queryArgs)
 
 	return recommendationPromise.rows[0]
 }
 
 const findRecommendationById = async ({ id }) => {
-	// TODO: daria para refatorar isso para todos os find serem vertentes do SELECT
+	// TODO: dá para refatorar isso para todos os find serem vertentes do SELECT
 	const query = `
 		SELECT * FROM recommendations
 			WHERE id = $1;
@@ -66,7 +67,7 @@ const selectTopRecommendations = async ({ amount }) => {
 
 
 export {
-	createRecommendation,
+	insertRecommendation,
 	findRecommendationById,
 	changeScore,
 	deleteRecommendationById,
