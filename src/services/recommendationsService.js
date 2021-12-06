@@ -9,7 +9,6 @@ import NoRecommendationsError from '../errors/NoRecommendationsError.js'
 
 
 const createRecommendation = async (recommendationInfo) => {
-	// TODO: fazer unit test para essa função
 	const inputsErrors = validationErrors({
 		objectToValid: recommendationInfo,
 		objectValidation: recommendationsValidation.validatePostRecommendation
@@ -86,9 +85,9 @@ const choiceRandomRecommendation = async () => {
 	return recommendation
 }
 
-// Olá Galdino! Essas próximas quatro funções servem de apoio para realizar a
-// função acima (choiceRandomRecommendation); eu deixo essas quatro nesse servi-
-// ce mesmo, coloco talvez em uma pasta utils ou o que eu faço?
+// TODO: Olá Galdino! Essas próximas quatro funções servem de apoio para reali-
+// zar a função acima (choiceRandomRecommendation); eu deixo essas quatro nesse 
+// service mesmo, coloco talvez em uma pasta utils ou o que eu faço?
 const choiceRecommendation = (list, type) => {
 	const [best, worst] = separateRecommendations(list)
 	const selectedList = {
