@@ -102,7 +102,7 @@ O script necessário para criar as tabelas pode ser encontrado [nesse arquivo](h
 
 
 ### Preparando setup
-Na pasta principal da API, crie um arquivo `.env` aos mesmos moldes do arquivo [`.env.example`](https://github.com/TiagoVota/sing-me-a-song-api/blob/main/.env.example).
+Na pasta principal da API, crie um arquivo `.env.dev` aos mesmos moldes do arquivo [`.env.example`](https://github.com/TiagoVota/sing-me-a-song-api/blob/main/.env.example).
 
 ### Inicializando a API
 ```bash

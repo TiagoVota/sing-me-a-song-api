@@ -1,7 +1,8 @@
 {
     "env": {
         "es2021": true,
-        "node": true
+        "node": true,
+				"jest": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -26,13 +27,5 @@
             "never"
         ],
         "no-unused-vars": "off"
-    },
-		"overrides": [
-			{
-				"files": ["tests/*/*.test.js"], // Or *.spec.js
-				"rules": {
-					"no-undef": "off"
-				}
-			}
-		]
+    }
 }

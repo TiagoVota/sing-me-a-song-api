@@ -122,11 +122,11 @@ const listTopRecommendations = async ({ amount }) => {
 	})
 	if (inputsErrors) throw new InputsError(inputsErrors)
 
-	const recommendations = await recommendationsRepository
+	const topRecommendations = await recommendationsRepository
 		.selectTopRecommendations({ amount })
-	if (recommendations.length === 0) throw new NoRecommendationsError()
+	if (topRecommendations.length === 0) throw new NoRecommendationsError()
 	
-	return recommendations
+	return topRecommendations
 }
 
 
